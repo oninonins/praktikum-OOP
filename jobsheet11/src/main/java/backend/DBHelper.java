@@ -1,4 +1,4 @@
-package src.main.java.backend;
+package backend;
 
 import java.sql.*;
 
@@ -17,7 +17,7 @@ public class DBHelper {
                 koneksi = DriverManager.getConnection(url, user, password);
             } catch (SQLException t) {
                 System.out.println("Error koneksi!");
-                t.printStackTrace(); // Tambahkan ini biar error-nya jelas
+                t.printStackTrace(); 
             }
         }
     }

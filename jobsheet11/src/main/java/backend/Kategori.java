@@ -1,4 +1,4 @@
-package src.main.java.backend;
+package backend;
 
 import java.util.ArrayList;
 import java.sql.*;
@@ -18,7 +18,6 @@ public class Kategori {
         this.keterangan = keterangan;
     }
 
-    // --- GETTERS DAN SETTERS ---
     public int getIdkategori() {
         return idkategori;
     }
@@ -43,14 +42,13 @@ public class Kategori {
         this.keterangan = keterangan;
     }
 
-    // --- METHOD CRUD ---
     public Kategori getById(int id) {
         Kategori kat = new Kategori();
         ResultSet rs = DBHelper.selectQuery("SELECT * FROM kategori "
                                             + " WHERE idkategori = '" + id + "'");
 
         try {
-            if (rs.next()) { // Diganti dari while ke if, karena ID itu unik
+            if (rs.next()) { 
                 kat = new Kategori();
                 kat.setIdkategori(rs.getInt("idkategori"));
                 kat.setNama(rs.getString("nama"));
