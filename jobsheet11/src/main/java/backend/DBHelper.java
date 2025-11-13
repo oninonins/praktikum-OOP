@@ -1,23 +1,23 @@
-package Backend;
-
+package src.main.java.backend;
 
 import java.sql.*;
 
-class DBHelper {
+public class DBHelper {
     private static Connection koneksi;
 
     public static void bukakoneksi() {
         if (koneksi == null) {
             try {
-                
-                String url = "jdbc:mysql://localhost:3306/dbperpus"; 
-                String user = "root";
+                // SESUAIKAN DENGAN DOCKER
+                String url = "jdbc:mysql://localhost:3306/dbperpus";
+                String user = "root"; 
                 String password = "root"; 
 
-                DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+                DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
                 koneksi = DriverManager.getConnection(url, user, password);
             } catch (SQLException t) {
-                System.out.println("Error koneksi!"); // 
+                System.out.println("Error koneksi!");
+                t.printStackTrace(); // Tambahkan ini biar error-nya jelas
             }
         }
     }
@@ -29,11 +29,11 @@ class DBHelper {
 
         try {
             Statement stmt = koneksi.createStatement();
-            num = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS); // 
+            num = stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 
-            ResultSet rs = stmt.getGeneratedKeys(); // 
+            ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                result = rs.getInt(1); // 
+                result = rs.getInt(1);
             }
 
             rs.close();
@@ -51,7 +51,7 @@ class DBHelper {
 
         try {
             Statement stmt = koneksi.createStatement();
-            stmt.executeUpdate(query); // 
+            stmt.executeUpdate(query);
             result = true;
             stmt.close();
         } catch (Exception e) {
@@ -66,28 +66,10 @@ class DBHelper {
 
         try {
             Statement stmt = koneksi.createStatement();
-            rs = stmt.executeQuery(query); // 
+            rs = stmt.executeQuery(query);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rs;
-    }
-
-
-    public static void main(String[] args) {
-        System.out.println("Mencoba koneksi ke database...");
-        bukakoneksi(); 
-
-        if (koneksi != null) {
-            System.out.println("Koneksi BERHASIL!");
-            try {
-                koneksi.close(); // Tutup koneksi setelah selesai tes
-                System.out.println("Koneksi ditutup.");
-            } catch (SQLException e) {
-                System.out.println("Gagal menutup koneksi.");
-            }
-        } else {
-            System.out.println("Koneksi GAGAL!");
-        }
     }
 }
